@@ -8,6 +8,8 @@ import key from "../core/key";
 export default class AutoReplace {
   constructor(context) {
     this.context = context;
+    this.$editable = context.layoutInfo.editable;
+
     this.options = context.options.replace || {};
 
     this.keys = [
@@ -57,6 +59,11 @@ export default class AutoReplace {
 
       this.lastWord.insertNode(node);
       this.lastWord = null;
+      this.context.triggerEvent(
+        "change",
+        this.$editable.html(),
+        this.$editable[0]
+      );
       this.context.invoke("editor.focus");
     }
   }
